@@ -1,8 +1,7 @@
 import Router from "koa-router";
 import fetch from "node-fetch";
 import { URLSearchParams } from "url";
-
-const appid = "c8931a82f375503088eb77975609aad6";
+import { config } from "./config";
 
 export const forecast = new Router({
   prefix: "/forecast"
@@ -11,7 +10,7 @@ export const forecast = new Router({
 forecast.get("/", async (ctx, next) => {
   const params = new URLSearchParams({
     q: ctx.query.city || "Sofia",
-    appid
+    appid: config.get("appId")
   });
 
   const url = `http://api.openweathermap.org/data/2.5/forecast?${params}`;
