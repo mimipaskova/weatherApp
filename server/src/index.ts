@@ -1,11 +1,9 @@
 import Koa from "koa";
+import { forecast } from "./forecast";
+
 const app = new Koa();
 
-console.log("startup");
-
-app.use(async ctx => {
-  ctx.body = "Hello World";
-});
+app.use(forecast.routes());
 
 const PORT = process.env.PORT || "3001";
 

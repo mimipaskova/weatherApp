@@ -4,11 +4,16 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "koa": "^2.11.0"
+    "koa": "^2.11.0",
+    "koa-body": "^4.1.1",
+    "koa-router": "^8.0.8",
+    "node-fetch": "^2.6.0"
   },
   "devDependencies": {
     "@types/koa": "^2.11.2",
+    "@types/koa-router": "^7.4.0",
     "@types/node": "^13.9.1",
+    "@types/node-fetch": "^2.5.5",
     "nodemon": "^2.0.2",
     "tslint": "^6.1.0",
     "typescript": "^3.8.3"
