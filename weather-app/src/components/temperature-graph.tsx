@@ -1,7 +1,5 @@
 import React from "react";
 
-// const Plotly = require("plotly.js-dist");
-
 import Plot from "react-plotly.js";
 import { PlotData } from "plotly.js";
 
@@ -33,7 +31,6 @@ export default function TemperatureGraph({
     mode: "lines+markers",
     marker: { color: "red" }
   };
-  console.log(temperature);
 
   return (
     <Plot

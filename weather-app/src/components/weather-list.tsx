@@ -18,7 +18,6 @@ export default function WeatherList({
     .groupBy(({ dt }) => new Date(dt * 1000).getDate())
     .map((value, key) => ({ date: key, dayData: value }))
     .value();
-  console.log(days);
 
   return (
     <div>
