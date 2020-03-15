@@ -1,6 +1,9 @@
 import React from "react";
 import { ICurrentWeather } from "../utils/current-weather.model";
 import CurrentWeather from "./current-weather";
+import _ from "lodash";
+import DayForecast from "./day-forecast";
+import TemperatureGraph from "./temperature-graph";
 
 export default function WeatherList({
   forecast
@@ -11,9 +14,19 @@ export default function WeatherList({
     return null;
   }
 
+  let days = _.chain(forecast)
+    .groupBy(({ dt }) => new Date(dt * 1000).getDate())
+    .map((value, key) => ({ date: key, dayData: value }))
+    .value();
+  console.log(days);
+
   return (
     <div>
-      <ul>
+      <TemperatureGraph temperatures={forecast}></TemperatureGraph>
+      {days.map(date => (
+        <DayForecast dayData={date.dayData} key={date.date}></DayForecast>
+      ))}
+      {/* <ul>
         {forecast.map(currentWeather => {
           return (
             <CurrentWeather
@@ -22,7 +35,7 @@ export default function WeatherList({
             ></CurrentWeather>
           );
         })}
-      </ul>
+      </ul> */}
     </div>
   );
 }
