@@ -1,9 +1,13 @@
 import React from "react";
+import { ICity } from "../../utils/city.model";
+import City from "../../components/city-details";
+import WeatherList from "../../components/weather-list";
 
 type MyState = {
   error: { message: string } | null;
   isLoaded: boolean;
-  forecast: {};
+  city: ICity;
+  list: [];
 };
 
 export default class Forecast extends React.Component<{}, MyState> {
@@ -12,7 +16,17 @@ export default class Forecast extends React.Component<{}, MyState> {
     this.state = {
       error: null,
       isLoaded: false,
-      forecast: {}
+      city: {
+        id: "",
+        name: "",
+        country: "",
+        population: 0,
+        timezone: 0,
+        sunrise: 0,
+        sunset: 0,
+        coord: { lat: 0, lon: 0 }
+      },
+      list: []
     };
   }
 
@@ -22,7 +36,8 @@ export default class Forecast extends React.Component<{}, MyState> {
       const result = await res.json();
       this.setState({
         isLoaded: true,
-        forecast: JSON.stringify(result)
+        city: result.city,
+        list: result.list
       });
     } catch (error) {
       this.setState({
@@ -33,13 +48,18 @@ export default class Forecast extends React.Component<{}, MyState> {
   }
 
   render() {
-    let { error, isLoaded, forecast } = this.state;
+    let { error, isLoaded, city, list } = this.state;
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
       return <div>Loading...</div>;
     } else {
-      return <div>{forecast}</div>;
+      return (
+        <div>
+          <City city={city}></City>
+          <WeatherList forecast={list}></WeatherList>
+        </div>
+      );
     }
   }
 }

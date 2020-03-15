@@ -10,7 +10,8 @@ export const forecast = new Router({
 forecast.get("/", async (ctx, next) => {
   const params = new URLSearchParams({
     q: ctx.query.city || "Sofia",
-    appid: config.get("appId")
+    appid: config.get("appId"),
+    units: "metric"
   });
 
   const url = `http://api.openweathermap.org/data/2.5/forecast?${params}`;
