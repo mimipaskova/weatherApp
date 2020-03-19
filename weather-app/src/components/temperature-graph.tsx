@@ -13,7 +13,8 @@ export default function TemperatureGraph({
     y: temperatures.map((day: any) => day.main.temp),
     type: "scatter",
     mode: "lines+markers",
-    marker: { color: "green" }
+    marker: { color: "green" },
+    name: "Temperature"
   };
 
   var minTemperature: Partial<PlotData> = {
@@ -21,7 +22,8 @@ export default function TemperatureGraph({
     y: temperatures.map((day: any) => day.main.temp_min),
     type: "scatter",
     mode: "lines+markers",
-    marker: { color: "blue" }
+    marker: { color: "blue" },
+    name: "Min Temperature"
   };
 
   var maxTemperature: Partial<PlotData> = {
@@ -29,13 +31,14 @@ export default function TemperatureGraph({
     y: temperatures.map((day: any) => day.main.temp_max),
     type: "scatter",
     mode: "lines+markers",
-    marker: { color: "red" }
+    marker: { color: "red" },
+    name: "Max Temperature"
   };
 
   return (
     <Plot
       data={[minTemperature, maxTemperature, temperature]}
-      layout={{ width: 1020, height: 540, title: "Temperature Plot" }}
+      layout={{ width: 1020, height: 540, title: "Temperature Graphic" }}
     />
   );
 }

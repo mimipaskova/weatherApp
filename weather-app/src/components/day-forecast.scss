@@ -1,6 +1,21 @@
 .day-forecast {
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  justify-content: space-between;
+  display: grid;
+  border-collapse: collapse;
+  min-width: 100%;
+  grid-template-columns:
+    minmax(500px, 1fr)
+    minmax(250px, 1.67fr)
+    minmax(250px, 1.67fr)
+    minmax(250px, 1.67fr)
+    minmax(250px, 3.33fr)
+    minmax(250px, 1.67fr)
+    minmax(250px, 3.33fr)
+    minmax(250px, 1.67fr);
+
+  .color-red {
+    color: red;
+  }
+  .color-blue {
+    color: blue;
+  }
 }

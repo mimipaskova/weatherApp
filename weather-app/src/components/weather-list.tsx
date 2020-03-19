@@ -22,6 +22,13 @@ export default function WeatherList({
   return (
     <div>
       <TemperatureGraph temperatures={forecast}></TemperatureGraph>
+      <div className="day-forecast">
+        <h1>Date</h1>
+        <h1>Day</h1>
+        <div>Average temperature</div>
+        <div>Average minimum temperature</div>
+        <div>Average maximum temperature</div>
+      </div>
       {days.map(date => (
         <DayForecast dayData={date.dayData} key={date.date}></DayForecast>
       ))}
