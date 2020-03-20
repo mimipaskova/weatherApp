@@ -8,5 +8,4 @@ export const config = convict({
     env: "KEY"
   }
 });
-// Perform validation
 config.validate({ allowed: "strict" });
