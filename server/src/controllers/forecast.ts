@@ -4,7 +4,7 @@ import { URLSearchParams } from "url";
 import { config } from "./config";
 
 export const forecast = new Router({
-  prefix: "/forecast"
+  prefix: "/api/forecast"
 });
 
 forecast.get("/", async (ctx, next) => {

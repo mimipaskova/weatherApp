@@ -2,7 +2,7 @@ import Router from "koa-router";
 import User from "./../models/user";
 
 export const home = new Router({
-  prefix: "/home"
+  prefix: "/api/home"
 });
 
 home.get("/", async (ctx: any) => {

@@ -48,7 +48,7 @@ export default class Forecast extends React.Component<{}, MyState> {
   }, 200);
 
   async fetchData() {
-    const res = await fetch(`/forecast?city=${this.state.selectedCity}`);
+    const res = await fetch(`/api/forecast?city=${this.state.selectedCity}`);
     try {
       const result = await res.json();
       this.setState({
@@ -57,8 +57,9 @@ export default class Forecast extends React.Component<{}, MyState> {
         list: result.list
       });
     } catch (error) {
+      window.location.replace(`/api/auth/google?returnTo=/forecast`);
       this.setState({
-        isLoaded: true,
+        isLoaded: false,
         error
       });
     }
@@ -72,32 +73,37 @@ export default class Forecast extends React.Component<{}, MyState> {
     let { error, isLoaded, city, list } = this.state;
     return (
       <div>
-        <div className="navigation">
-          Select city or write a city:
-          <select
-            name="select"
-            className="form-control"
-            onChange={this.selectCity}
-          >
-            {cities.map(city => (
-              <option value={city} key={city}>
-                {city}
-              </option>
-            ))}
-          </select>
+        <a href="/api/logout">Sign out</a>
+        {isLoaded && list.length > 0 && (
           <div>
-            <input
-              type="text"
-              className="form-control"
-              value={this.state.selectedCity}
-              onChange={this.selectCity}
-            />
+            <div className="navigation">
+              Select city or write a city:
+              <select
+                name="select"
+                className="form-control"
+                onChange={this.selectCity}
+              >
+                {cities.map(city => (
+                  <option value={city} key={city}>
+                    {city}
+                  </option>
+                ))}
+              </select>
+              <div>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={this.state.selectedCity}
+                  onChange={this.selectCity}
+                />
+              </div>
+            </div>
+            {error && <div>Error: {error.message}</div>}
+            {!isLoaded && <div>Loading...</div>}
+            <City city={city}></City>
+            <WeatherList forecast={list}></WeatherList>
           </div>
-        </div>
-        {error && <div>Error: {error.message}</div>}
-        {!isLoaded && <div>Loading...</div>}
-        <City city={city}></City>
-        <WeatherList forecast={list}></WeatherList>
+        )}
       </div>
     );
   }
