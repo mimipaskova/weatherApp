@@ -2,35 +2,22 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
-const roles = {
+export const ROLES = {
   user: 5,
   admin: 10
 };
 
 const usersSchema = new Schema({
-  username: {
+  googleId: {
     type: String,
-    unique: true,
-    require: true
+    required: true,
+    unique: true
   },
-  password: {
-    type: String,
-    require: true
-  },
-  email: {
-    type: String
+  name: String,
+  role: {
+    type: Number,
+    default: ROLES.user
   }
-
-  //   googleId: {
-  //     type: String,
-  //     required: true
-  //   },
-  //   name: String,
-  //   role: {
-  //     type: Number,
-  //     default: roles.user
-  //   }
 });
 
-const User = mongoose.model("user", usersSchema, "users");
-export default User;
+export const User = mongoose.model("user", usersSchema, "users");

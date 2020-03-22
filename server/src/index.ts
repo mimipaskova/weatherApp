@@ -1,6 +1,6 @@
 import Koa from "koa";
 
-import db from "./models/db-connector";
+import { init } from "./models/db-connector";
 import { forecast } from "./controllers/forecast";
 import { home } from "./routes";
 import bodyParser from "koa-bodyparser";
@@ -11,9 +11,11 @@ import passport from "koa-passport";
 import route from "koa-route";
 
 import "./controllers/googleOAuth";
-// import "./seed";
+import { users } from "./controllers/users";
 
 const app = new Koa();
+
+init();
 
 // sessions
 app.keys = ["your-session-secret"];
@@ -36,8 +38,6 @@ app.use(
         ? new Buffer(JSON.stringify({ returnTo })).toString("base64")
         : undefined;
 
-      console.log(returnTo);
-
       const authenticator = passport.authenticate("google", {
         scope: ["profile"],
         state
@@ -59,7 +59,6 @@ app.use(
     try {
       const { state } = ctx.query;
       const { returnTo } = JSON.parse(new Buffer(state, "base64").toString());
-      console.log(returnTo);
       if (typeof returnTo === "string" && returnTo.startsWith("/")) {
         return ctx.redirect(returnTo);
       }
@@ -81,18 +80,8 @@ app.use(function(ctx, next) {
 
 // routes
 app.use(forecast.routes());
+app.use(users.routes());
 app.use(home.routes());
-
-// POST /login
-app.use(
-  route.post(
-    "/api/login",
-    passport.authenticate("local", {
-      successRedirect: "/app",
-      failureRedirect: "/"
-    })
-  )
-);
 
 app.use(
   route.get("/api/logout", function(ctx: any) {

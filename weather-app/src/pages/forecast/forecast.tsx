@@ -4,6 +4,7 @@ import City from "../../components/city-details";
 import WeatherList from "../../components/weather-list";
 import _ from "lodash";
 import "./forecast.scss";
+import ForecastService from "../../utils/api.service";
 
 type MyState = {
   error: { message: string } | null;
@@ -16,8 +17,10 @@ type MyState = {
 let cities = ["Sofia", "Plovdiv", "Pleven", "Varna", "Burgas"];
 
 export default class Forecast extends React.Component<{}, MyState> {
+  forecastService: ForecastService;
   constructor(props: any) {
     super(props);
+    this.forecastService = new ForecastService();
     this.state = {
       error: null,
       isLoaded: false,
@@ -48,16 +51,16 @@ export default class Forecast extends React.Component<{}, MyState> {
   }, 200);
 
   async fetchData() {
-    const res = await fetch(`/api/forecast?city=${this.state.selectedCity}`);
+    const res = this.forecastService.getForecast(this.state.selectedCity);
+
     try {
-      const result = await res.json();
+      const result = await res;
       this.setState({
         isLoaded: true,
         city: result.city,
         list: result.list
       });
     } catch (error) {
-      window.location.replace(`/api/auth/google?returnTo=/forecast`);
       this.setState({
         isLoaded: false,
         error
@@ -73,7 +76,6 @@ export default class Forecast extends React.Component<{}, MyState> {
     let { error, isLoaded, city, list } = this.state;
     return (
       <div>
-        <a href="/api/logout">Sign out</a>
         {isLoaded && list.length > 0 && (
           <div>
             <div className="navigation">
