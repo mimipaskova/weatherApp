@@ -37,7 +37,6 @@ export default class UsersList extends React.Component<{}, MyState> {
   }
 
   async removeUser(user: any) {
-    console.log("Remove this user", user);
     const isDeleted = await this.userService.removeUser(user);
     this.getUsers();
   }

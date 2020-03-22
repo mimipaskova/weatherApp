@@ -44,7 +44,6 @@ export default class Forecast extends React.Component<{}, MyState> {
   }
 
   componentDidUpdate = _.debounce((prevProps: any, prevState: any) => {
-    console.log(prevState.selectedCity, this.state.selectedCity);
     if (prevState.selectedCity !== this.state.selectedCity) {
       this.fetchData();
     }

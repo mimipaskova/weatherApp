@@ -10,7 +10,7 @@ class UserService {
       return result;
     } catch (error) {
       console.log(error);
-      handleResponseError("/users");
+      handleResponseError("/");
     }
   }
 
@@ -26,6 +26,13 @@ class UserService {
     const result = await res.json();
     console.log(result);
     return result.isAdmin;
+  }
+
+  async getCurrentUser() {
+    const res = await fetch("/api/users/me");
+    const result = await res.json();
+    console.log(result);
+    return result;
   }
 }
 export default UserService;

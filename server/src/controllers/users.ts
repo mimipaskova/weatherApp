@@ -13,10 +13,12 @@ users.get("/isAdmin", async (ctx: any, next) => {
   }
 });
 
+users.get("/me", async (ctx: any, next) => {
+  ctx.body = ctx.session.passport.user; // TODO: filter fields
+});
+
 users.delete("/delete/:googleId", async (ctx: any, next) => {
-  console.log(ctx.params.googleId);
   const deleted = await User.deleteOne({ googleId: ctx.params.googleId });
-  console.log(deleted);
   ctx.body = deleted;
 });
 
@@ -25,7 +27,6 @@ users.get("/", async (ctx: any, next) => {
     ctx.response.status = 403;
   } else {
     const allUsers = await User.find({ role: ROLES.user });
-    console.log(allUsers);
     ctx.body = allUsers;
   }
 });
