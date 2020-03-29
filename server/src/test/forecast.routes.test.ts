@@ -54,7 +54,7 @@ describe("Forecast routes", () => {
     server.close();
   });
 
-  it("should get user for weather cast", async () => {
+  it("should get 200 for weather cast", async () => {
     const res = await chai.request(server).get(forecastUrl);
     expect(res).to.have.status(200);
   });
