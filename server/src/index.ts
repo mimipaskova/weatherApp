@@ -1,17 +1,14 @@
 import Koa from "koa";
+import route from "koa-route";
+import passport from "koa-passport";
 
 import { init } from "./models/db-connector";
 import { forecast } from "./controllers/forecast";
-import { home } from "./routes";
 import bodyParser from "koa-bodyparser";
 import session from "koa-session";
 import "./controllers/googleOAuth";
-import passport from "koa-passport";
-
-import route from "koa-route";
-
-import "./controllers/googleOAuth";
 import { users } from "./controllers/users";
+import { middleware } from "./auth";
 
 const app = new Koa();
 
@@ -70,18 +67,11 @@ app.use(
 );
 
 // Require authentication for now
-app.use(function(ctx, next) {
-  if (ctx.isAuthenticated()) {
-    return next();
-  } else {
-    ctx.response.status = 401;
-  }
-});
+app.use((ctx, next) => middleware.ensureSession(ctx, next));
 
 // routes
 app.use(forecast.routes());
 app.use(users.routes());
-app.use(home.routes());
 
 app.use(
   route.get("/api/logout", function(ctx: any) {
@@ -90,10 +80,4 @@ app.use(
   })
 );
 
-const PORT = process.env.PORT || "3001";
-
-app.listen(PORT, () => {
-  console.log(
-    `\n\n\n🚀  Node Server running at http://localhost:${PORT}.\n\n\n`
-  );
-});
+export = app;

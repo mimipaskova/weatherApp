@@ -1,5 +1,5 @@
 import Router from "koa-router";
-import User from "./../models/user";
+import { User } from "./../models/user";
 
 export const home = new Router({
   prefix: "/api/home"
@@ -15,7 +15,6 @@ home.post("/", async (ctx: any) => {
     success: false,
     message: "user does not exist"
   };
-  //   console.log(ctx.request);
   const { username, password } = ctx.request.body;
   await User.findOne(
     {
