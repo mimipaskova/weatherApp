@@ -1,5 +1,5 @@
 import React from "react";
-import { ICity } from "../../utils/city.model";
+import { ICity, initialStateCity } from "../../utils/city.model";
 import City from "../../components/city-details";
 import WeatherList from "../../components/weather-list";
 import _ from "lodash";
@@ -25,16 +25,7 @@ export default class Forecast extends React.Component<{}, MyState> {
       error: null,
       isLoaded: false,
       selectedCity: "",
-      city: {
-        id: "",
-        name: "",
-        country: "",
-        population: 0,
-        timezone: 0,
-        sunrise: 0,
-        sunset: 0,
-        coord: { lat: 0, lon: 0 }
-      },
+      city: initialStateCity,
       list: []
     };
   }
@@ -50,10 +41,10 @@ export default class Forecast extends React.Component<{}, MyState> {
   }, 200);
 
   async fetchData() {
-    const res = this.forecastService.getForecast(this.state.selectedCity);
-
     try {
-      const result = await res;
+      const result = await this.forecastService.getForecast(
+        this.state.selectedCity
+      );
       this.setState({
         isLoaded: true,
         city: result.city,
@@ -77,7 +68,7 @@ export default class Forecast extends React.Component<{}, MyState> {
       <div>
         {isLoaded && list.length > 0 && (
           <div>
-            <div className="navigation">
+            <div className="city-controls">
               Select city or write a city:
               <select
                 name="select"

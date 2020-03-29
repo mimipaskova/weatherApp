@@ -5,40 +5,58 @@ import { PlotData } from "plotly.js";
 import { ICurrentWeather } from "../utils/current-weather.model";
 
 export default function TemperatureGraph({
-  dayWeather
+  cityWeather,
+  secondWeather
 }: {
-  dayWeather: Array<ICurrentWeather>;
+  cityWeather: Array<ICurrentWeather>;
+  secondWeather?: Array<ICurrentWeather>;
 }) {
-  var temperature: Partial<PlotData> = {
-    x: dayWeather.map(day => new Date(day.dt * 1000).toISOString()),
-    y: dayWeather.map((day: any) => day.main.temp),
+  let dataToShow = [];
+
+  const temperature: Partial<PlotData> = {
+    x: cityWeather.map(day => new Date(day.dt * 1000).toISOString()),
+    y: cityWeather.map((day: any) => day.main.temp),
     type: "scatter",
     mode: "lines+markers",
     marker: { color: "green" },
     name: "Temperature"
   };
 
-  var minTemperature: Partial<PlotData> = {
-    x: dayWeather.map(day => new Date(day.dt * 1000).toISOString()),
-    y: dayWeather.map((day: any) => day.main.temp_min),
+  const minTemperature: Partial<PlotData> = {
+    x: cityWeather.map(day => new Date(day.dt * 1000).toISOString()),
+    y: cityWeather.map((day: any) => day.main.temp_min),
     type: "scatter",
     mode: "lines+markers",
     marker: { color: "blue" },
     name: "Min Temperature"
   };
 
-  var maxTemperature: Partial<PlotData> = {
-    x: dayWeather.map(day => new Date(day.dt * 1000).toISOString()),
-    y: dayWeather.map((day: any) => day.main.temp_max),
+  const maxTemperature: Partial<PlotData> = {
+    x: cityWeather.map(day => new Date(day.dt * 1000).toISOString()),
+    y: cityWeather.map((day: any) => day.main.temp_max),
     type: "scatter",
     mode: "lines+markers",
     marker: { color: "red" },
     name: "Max Temperature"
   };
 
+  if (secondWeather) {
+    const secondTemperature: Partial<PlotData> = {
+      x: secondWeather.map(day => new Date(day.dt * 1000).toISOString()),
+      y: secondWeather.map((day: any) => day.main.temp),
+      type: "scatter",
+      mode: "lines+markers",
+      marker: { color: "blue" },
+      name: "Temperature Second City"
+    };
+    dataToShow = [temperature, secondTemperature];
+  } else {
+    dataToShow = [minTemperature, maxTemperature, temperature];
+  }
+
   return (
     <Plot
-      data={[minTemperature, maxTemperature, temperature]}
+      data={dataToShow}
       layout={{
         width: 1020,
         height: 540,

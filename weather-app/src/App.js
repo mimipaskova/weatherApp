@@ -13,6 +13,7 @@ import {
 import UsersList from "./pages/users/users";
 import UserService from "./utils/user.service";
 import Logout from "./pages/logout";
+import CompareCities from "./pages/compareCities/compareCities";
 
 class App extends Component {
   constructor(props) {
@@ -50,6 +51,7 @@ class App extends Component {
         <nav className="navigation">
           <Link to="/">Home</Link>
           <Link to="/forecast">Forecast</Link>
+          <Link to="/compareCities">Compare Cities</Link>
           {isAdmin ? <Link to="/users">Users</Link> : ""}
           {currentUser ? <Link to="/logout">Logout</Link> : ""}
         </nav>
@@ -60,6 +62,9 @@ class App extends Component {
             </Route>
             <Route path="/forecast">
               <Forecast />
+            </Route>
+            <Route path="/compareCities">
+              <CompareCities />
             </Route>
             {isAdmin ? <Route path="/users" component={UsersList} /> : ""}
             {currentUser ? (

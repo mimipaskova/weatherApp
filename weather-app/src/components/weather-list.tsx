@@ -22,7 +22,7 @@ export default function WeatherList({
 
   return (
     <div>
-      <TemperatureGraph dayWeather={forecast}></TemperatureGraph>
+      <TemperatureGraph cityWeather={forecast}></TemperatureGraph>
       <WindGraph dayWeather={forecast}></WindGraph>
       <div className="day-forecast">
         <h1>Date</h1>
@@ -34,16 +34,6 @@ export default function WeatherList({
       {days.map(date => (
         <DayForecast dayData={date.dayData} key={date.date}></DayForecast>
       ))}
-      {/* <ul>
-        {forecast.map(currentWeather => {
-          return (
-            <CurrentWeather
-              weather={currentWeather}
-              key={currentWeather.dt}
-            ></CurrentWeather>
-          );
-        })}
-      </ul> */}
     </div>
   );
 }
