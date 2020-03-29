@@ -2,15 +2,16 @@ import React from "react";
 
 import Plot from "react-plotly.js";
 import { PlotData } from "plotly.js";
+import { ICurrentWeather } from "../utils/current-weather.model";
 
 export default function TemperatureGraph({
-  temperatures
+  dayWeather
 }: {
-  temperatures: Array<any>;
+  dayWeather: Array<ICurrentWeather>;
 }) {
   var temperature: Partial<PlotData> = {
-    x: temperatures.map(day => new Date(day.dt * 1000).toISOString()),
-    y: temperatures.map((day: any) => day.main.temp),
+    x: dayWeather.map(day => new Date(day.dt * 1000).toISOString()),
+    y: dayWeather.map((day: any) => day.main.temp),
     type: "scatter",
     mode: "lines+markers",
     marker: { color: "green" },
@@ -18,8 +19,8 @@ export default function TemperatureGraph({
   };
 
   var minTemperature: Partial<PlotData> = {
-    x: temperatures.map(day => new Date(day.dt * 1000).toISOString()),
-    y: temperatures.map((day: any) => day.main.temp_min),
+    x: dayWeather.map(day => new Date(day.dt * 1000).toISOString()),
+    y: dayWeather.map((day: any) => day.main.temp_min),
     type: "scatter",
     mode: "lines+markers",
     marker: { color: "blue" },
@@ -27,8 +28,8 @@ export default function TemperatureGraph({
   };
 
   var maxTemperature: Partial<PlotData> = {
-    x: temperatures.map(day => new Date(day.dt * 1000).toISOString()),
-    y: temperatures.map((day: any) => day.main.temp_max),
+    x: dayWeather.map(day => new Date(day.dt * 1000).toISOString()),
+    y: dayWeather.map((day: any) => day.main.temp_max),
     type: "scatter",
     mode: "lines+markers",
     marker: { color: "red" },
@@ -38,7 +39,27 @@ export default function TemperatureGraph({
   return (
     <Plot
       data={[minTemperature, maxTemperature, temperature]}
-      layout={{ width: 1020, height: 540, title: "Temperature Graphic" }}
+      layout={{
+        width: 1020,
+        height: 540,
+        title: "Temperature Graphic",
+        xaxis: {
+          title: "Days",
+          titlefont: {
+            family: "Courier New, monospace",
+            size: 18,
+            color: "#7f7f7f"
+          }
+        },
+        yaxis: {
+          title: "Temperature in Celsius",
+          titlefont: {
+            family: "Courier New, monospace",
+            size: 18,
+            color: "#7f7f7f"
+          }
+        }
+      }}
     />
   );
 }

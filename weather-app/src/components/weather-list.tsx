@@ -4,6 +4,7 @@ import CurrentWeather from "./current-weather";
 import _ from "lodash";
 import DayForecast from "./day-forecast";
 import TemperatureGraph from "./temperature-graph";
+import WindGraph from "./wind-graph";
 
 export default function WeatherList({
   forecast
@@ -21,7 +22,8 @@ export default function WeatherList({
 
   return (
     <div>
-      <TemperatureGraph temperatures={forecast}></TemperatureGraph>
+      <TemperatureGraph dayWeather={forecast}></TemperatureGraph>
+      <WindGraph dayWeather={forecast}></WindGraph>
       <div className="day-forecast">
         <h1>Date</h1>
         <h1>Day</h1>
