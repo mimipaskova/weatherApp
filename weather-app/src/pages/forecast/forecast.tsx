@@ -66,32 +66,32 @@ export default class Forecast extends React.Component<{}, MyState> {
     let { error, isLoaded, city, list } = this.state;
     return (
       <div>
+        <div className="city-controls">
+          Select city or write a city:
+          <select
+            name="select"
+            className="form-control"
+            onChange={this.selectCity}
+          >
+            {cities.map(city => (
+              <option value={city} key={city}>
+                {city}
+              </option>
+            ))}
+          </select>
+          <div>
+            <input
+              type="text"
+              className="form-control"
+              value={this.state.selectedCity}
+              onChange={this.selectCity}
+            />
+          </div>
+        </div>
+        {error && <div>Error: {error.message}</div>}
+        {!isLoaded && <div>Loading...</div>}
         {isLoaded && list.length > 0 && (
           <div>
-            <div className="city-controls">
-              Select city or write a city:
-              <select
-                name="select"
-                className="form-control"
-                onChange={this.selectCity}
-              >
-                {cities.map(city => (
-                  <option value={city} key={city}>
-                    {city}
-                  </option>
-                ))}
-              </select>
-              <div>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={this.state.selectedCity}
-                  onChange={this.selectCity}
-                />
-              </div>
-            </div>
-            {error && <div>Error: {error.message}</div>}
-            {!isLoaded && <div>Loading...</div>}
             <City city={city}></City>
             <WeatherList forecast={list}></WeatherList>
           </div>

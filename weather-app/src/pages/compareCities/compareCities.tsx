@@ -94,38 +94,38 @@ export default class CompareCities extends React.Component<{}, MyState> {
     } = this.state;
     return (
       <div>
+        {[0, 1].map(i => (
+          <div className="city-controls" key={i}>
+            Select city or write a city:
+            <select
+              name="select"
+              className="form-control"
+              onChange={e => {
+                this.selectCity(i, e);
+              }}
+            >
+              {cities.map(city => (
+                <option value={city} key={city}>
+                  {city}
+                </option>
+              ))}
+            </select>
+            <div>
+              <input
+                type="text"
+                className="form-control"
+                value={selectedCities[i]}
+                onChange={e => {
+                  this.selectCity(i, e);
+                }}
+              />
+            </div>
+          </div>
+        ))}
+        {error && <div>Error: {error.message}</div>}
+        {!isLoaded && <div>Loading...</div>}
         {isLoaded && firstList.length > 0 && secondList.length > 0 && (
           <div>
-            {[0, 1].map(i => (
-              <div className="city-controls" key={i}>
-                Select city or write a city:
-                <select
-                  name="select"
-                  className="form-control"
-                  onChange={e => {
-                    this.selectCity(i, e);
-                  }}
-                >
-                  {cities.map(city => (
-                    <option value={city} key={city}>
-                      {city}
-                    </option>
-                  ))}
-                </select>
-                <div>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={selectedCities[i]}
-                    onChange={e => {
-                      this.selectCity(i, e);
-                    }}
-                  />
-                </div>
-              </div>
-            ))}
-            {error && <div>Error: {error.message}</div>}
-            {!isLoaded && <div>Loading...</div>}
             <City city={firstCity}></City>
             <City city={secondCity}></City>
             <TemperatureGraph
