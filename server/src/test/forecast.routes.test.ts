@@ -103,4 +103,10 @@ describe("Forecast routes", () => {
       .to.be.a("string")
       .that.includes("Plovdiv");
   });
+
+  it("should return Error for city which doesn't exist", async () => {
+    const res = await chai.request(server).get(`${forecastUrl}?city=l`);
+    expect(res).to.have.status(500);
+    expect(res.text).to.be.equal("Internal Server Error");
+  });
 });
